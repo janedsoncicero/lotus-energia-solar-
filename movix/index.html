@@ -268,6 +268,7 @@
   .row-2 { display: grid; grid-template-columns: 1fr 110px; gap: 12px; }
   .err { color: var(--danger); font-size: 13px; min-height: 18px; margin-top: -8px; margin-bottom: 8px; }
   .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: var(--text-2); margin: 6px 0 14px; cursor: pointer; }
+  .consent a { color: var(--accent); }
   .consent input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
   .f-actions { margin-top: 22px; display: flex; justify-content: flex-end; }
   .f-actions .btn { min-width: 180px; }
@@ -283,8 +284,20 @@
   .btn-wa { background: #25d366; color: #052e16; box-shadow: 0 10px 30px rgba(37, 211, 102, .3); }
   .btn-wa:hover { transform: translateY(-2px); }
 
-  /* Recursos (dentro da seção de veículos) */
-  .vehicles + .features { margin-top: 22px; }
+  /* Telas do aplicativo */
+  .phones { display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 28px; align-items: center; max-width: 980px; margin: 0 auto; }
+  .phone-fig { margin: 0; display: grid; gap: 14px; justify-items: center; min-width: 0; }
+  .phone {
+    position: relative; width: 100%; max-width: 300px; border-radius: 34px; padding: 9px; overflow: hidden;
+    background: linear-gradient(160deg, #2a3550, #0b1020 40%, #141c30);
+    box-shadow: 0 0 0 1px rgba(120, 160, 230, .25), 0 30px 70px rgba(0, 0, 0, .55), 0 0 60px rgba(20, 96, 255, .12);
+  }
+  .phone img { display: block; width: 100%; height: auto; border-radius: 26px; }
+  .phone::before { content: ""; position: absolute; top: 15px; left: 50%; width: 64px; height: 6px; margin-left: -32px; border-radius: 6px; background: rgba(0, 0, 0, .55); z-index: 1; }
+  .phone-fig.main .phone { max-width: 340px; box-shadow: 0 0 0 1px rgba(120, 160, 230, .35), 0 40px 90px rgba(0, 0, 0, .6), 0 0 90px rgba(20, 96, 255, .25); }
+  .phone-fig figcaption { font-weight: 700; font-size: 15px; color: var(--text-2); }
+  .app-note { text-align: center; color: var(--text-3); font-size: 13px; margin: 22px 0 0; }
+  .app-section .features { margin-top: 36px; }
 
   /* Cadastro: passos */
   .aside-steps { list-style: none; counter-reset: st; padding: 0; margin: 28px 0 0; display: grid; gap: 18px; }
@@ -413,6 +426,14 @@
     .hero { padding: 44px 0 64px; }
     section.block { padding: 72px 0; }
     .path-cards, .paths, .features, .vehicles, .biz-grid { grid-template-columns: 1fr; }
+    .phones { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 16px 16px; margin: 0 -16px; max-width: none; scrollbar-width: none; }
+    .phones::-webkit-scrollbar { display: none; }
+    .phone-fig { flex: 0 0 74%; scroll-snap-align: center; }
+    .phone-fig.main { order: -1; }
+    .phone, .phone-fig.main .phone { max-width: 100%; }
+    .feature { display: grid; grid-template-columns: 46px 1fr; column-gap: 14px; padding: 18px; }
+    .feature .fi { grid-row: span 2; margin: 0; }
+    .feature h4 { margin: 2px 0 2px; }
     .biz-card.wide { grid-column: auto; }
     .biz-card { padding: 22px; }
     .msg-list { grid-template-columns: 1fr; }
@@ -740,9 +761,35 @@
           </div>
         </article>
       </div>
+    </div>
+  </section>
+
+  <!-- ===== APLICATIVO (telas reais) ===== -->
+  <section class="block app-section" id="aplicativo" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">A plataforma por dentro</span>
+        <h2>Toda a sua operação <span class="grad-text">na palma da mão</span></h2>
+        <p>Telas reais do aplicativo MoviX.</p>
+      </div>
+      <div class="phones" id="phones">
+        <figure class="phone-fig reveal">
+          <div class="phone"><img src="img/app-lista.jpg" alt="Tela do aplicativo com a lista de veículos e o status de cada um" width="600" height="1205" loading="lazy" decoding="async"></div>
+          <figcaption>Lista de veículos</figcaption>
+        </figure>
+        <figure class="phone-fig main reveal">
+          <div class="phone"><img src="img/app-mapa.jpg" alt="Tela do aplicativo com veículos agrupados por estado no mapa do Brasil" width="600" height="1205" loading="lazy" decoding="async"></div>
+          <figcaption>Frota no mapa do Brasil</figcaption>
+        </figure>
+        <figure class="phone-fig reveal">
+          <div class="phone"><img src="img/app-lista-mapa.jpg" alt="Tela do aplicativo com a lista de veículos sobre o mapa" width="600" height="1205" loading="lazy" decoding="async"></div>
+          <figcaption>Lista e mapa juntos</figcaption>
+        </figure>
+      </div>
+      <p class="app-note">Nomes, placas, endereços e quantidades exibidos são fictícios.</p>
       <div class="features">
-        <div class="feature reveal"><span class="fi"><svg width="24" height="24"><use href="#i-pin"/></svg></span><h4>Tempo real</h4><p>Localização, velocidade e ignição de cada veículo no mapa.</p></div>
-        <div class="feature reveal"><span class="fi"><svg width="24" height="24"><use href="#i-phone"/></svg></span><h4>Aplicativo para o cliente</h4><p>Seu cliente acompanha o veículo pelo celular, de onde estiver.</p></div>
+        <div class="feature reveal"><span class="fi"><svg width="24" height="24"><use href="#i-pin"/></svg></span><h4>Tempo real</h4><p>Localização, velocidade, ignição e bateria de cada veículo.</p></div>
+        <div class="feature reveal"><span class="fi"><svg width="24" height="24"><use href="#i-phone"/></svg></span><h4>Status de cada veículo</h4><p>Online, desconectado ou em movimento, com filtros e busca por nome, IMEI ou placa.</p></div>
         <div class="feature reveal"><span class="fi"><svg width="24" height="24"><use href="#i-lock"/></svg></span><h4>Bloqueio do veículo</h4><p>Em caso de roubo ou furto, o veículo pode ser bloqueado à distância.</p></div>
         <div class="feature reveal"><span class="fi"><svg width="24" height="24"><use href="#i-bell"/></svg></span><h4>Cercas e alertas</h4><p>Avisos quando o veículo sai da área definida ou ultrapassa o limite de velocidade.</p></div>
       </div>
@@ -933,6 +980,7 @@
       <a href="#negocio">Benefícios</a>
       <a href="#cadastro">Cadastro</a>
       <a href="#faq">Dúvidas</a>
+      <a href="politica-de-privacidade.html">Política de Privacidade</a>
     </nav>
     <span>© <span id="year"></span> MoviX. Todos os direitos reservados.</span>
   </div>
@@ -944,14 +992,61 @@
 
 <script>
 /* =====================================================================
-   CONFIGURAÇÃO: preencha estes dois campos
-   - SCRIPT_URL: URL do Google Apps Script que salva os cadastros
-     na planilha (veja movix/LEIA-ME.md)
+   CONFIGURAÇÃO (veja movix/LEIA-ME.md)
+   - SCRIPT_URL: URL do Google Apps Script que salva os cadastros na planilha
    - WHATSAPP: número da MoviX com DDI e DDD, só números (ex.: 5511999998888)
+   - META_PIXEL_ID / GOOGLE_ADS_ID / GOOGLE_ADS_LEAD_LABEL / GA4_ID: anúncios
    ===================================================================== */
 const CONFIG = {
   SCRIPT_URL: "",
-  WHATSAPP: "5500000000000"
+  WHATSAPP: "5500000000000",
+  // Anúncios (deixe vazio o que não for usar)
+  META_PIXEL_ID: "",            // ex.: "123456789012345"
+  GOOGLE_ADS_ID: "",            // ex.: "AW-123456789"
+  GOOGLE_ADS_LEAD_LABEL: "",    // rótulo da conversão de cadastro, ex.: "AbCdEfGhIjk"
+  GA4_ID: ""                    // ex.: "G-ABC123XYZ" (opcional)
+};
+
+/* ===== Pixel da Meta e Google (carregam só se o ID estiver preenchido) ===== */
+(function loadTags() {
+  if (CONFIG.META_PIXEL_ID) {
+    !function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments) };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = "2.0"; n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s) }(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+    fbq("init", CONFIG.META_PIXEL_ID);
+    fbq("track", "PageView");
+  }
+  const gid = CONFIG.GOOGLE_ADS_ID || CONFIG.GA4_ID;
+  if (gid) {
+    const t = document.createElement("script"); t.async = true; t.src = "https://www.googletagmanager.com/gtag/js?id=" + gid;
+    document.head.appendChild(t);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag("js", new Date());
+    if (CONFIG.GOOGLE_ADS_ID) gtag("config", CONFIG.GOOGLE_ADS_ID);
+    if (CONFIG.GA4_ID) gtag("config", CONFIG.GA4_ID);
+  }
+})();
+
+/* Eventos de anúncios: início do cadastro, cadastro concluído e clique no WhatsApp */
+const track = {
+  started: false,
+  start() {
+    if (this.started) return; this.started = true;
+    if (window.fbq) fbq("trackCustom", "InicioCadastro");
+    if (window.gtag) gtag("event", "begin_signup");
+  },
+  lead(perfil) {
+    if (window.fbq) fbq("track", "Lead", { content_category: perfil });
+    if (window.gtag) {
+      if (CONFIG.GOOGLE_ADS_ID && CONFIG.GOOGLE_ADS_LEAD_LABEL) gtag("event", "conversion", { send_to: CONFIG.GOOGLE_ADS_ID + "/" + CONFIG.GOOGLE_ADS_LEAD_LABEL });
+      gtag("event", "generate_lead", { perfil });
+    }
+  },
+  contact() {
+    if (window.fbq) fbq("track", "Contact");
+    if (window.gtag) gtag("event", "contato_whatsapp");
+  }
 };
 
 /* ===== Definição do funil ===== */
@@ -1143,7 +1238,7 @@ function render() {
       </div>
       <div class="field"><label for="cEmail">E-mail <em>(opcional)</em></label><input class="input" id="cEmail" name="email" type="email" autocomplete="email" maxlength="100" value="${esc(a.email || "")}" placeholder="seu@email.com"></div>
       <div class="hp" aria-hidden="true"><label>Não preencha<input id="cHp" tabindex="-1" autocomplete="off"></label></div>
-      <label class="consent"><input type="checkbox" id="cOk" ${a.consentimento ? "checked" : ""}> Autorizo a MoviX a entrar em contato comigo pelo WhatsApp e a guardar estas informações para o atendimento.</label>
+      <label class="consent"><input type="checkbox" id="cOk" ${a.consentimento ? "checked" : ""}> Autorizo a MoviX a entrar em contato comigo pelo WhatsApp e a guardar estas informações para o atendimento, conforme a <a href="politica-de-privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</label>
       <div class="err" id="fErr"></div>
       <div class="f-actions"><button class="btn btn-primary" id="fSend" type="submit">Quero ser atendido <svg width="18" height="18"><use href="#i-arrow"/></svg></button></div>
     </form>`;
@@ -1166,6 +1261,7 @@ function bind(step, id) {
     body.querySelectorAll(".opt").forEach(btn => btn.addEventListener("click", () => {
       const o = step.options[+btn.dataset.i];
       state.answers[id] = o.v;
+      track.start();
       body.querySelectorAll(".opt").forEach(b => { b.classList.remove("selected"); b.setAttribute("aria-checked", "false"); });
       btn.classList.add("selected"); btn.setAttribute("aria-checked", "true");
       setTimeout(() => go(step.next(o.v)), 220);
@@ -1304,8 +1400,7 @@ async function submit() {
     console.warn("[MoviX] CONFIG.SCRIPT_URL vazio: cadastro salvo só neste navegador.", lead);
   }
 
-  if (window.dataLayer) window.dataLayer.push({ event: "lead_movix", perfil: lead.perfil });
-  if (window.fbq) window.fbq("track", "Lead");
+  track.lead(lead.perfil);
   done(lead);
 }
 
@@ -1344,6 +1439,7 @@ back.addEventListener("click", () => {
 /* Botões "Quero abrir minha empresa" / "Já tenho empresa de rastreamento" iniciam o funil já respondido */
 document.querySelectorAll("[data-start]").forEach(btn => btn.addEventListener("click", () => {
   const v = btn.dataset.start;
+  track.start();
   state.answers.ja_trabalha = v;
   state.history = ["ja_trabalha", STEPS.ja_trabalha.next(v)];
   render();
@@ -1353,6 +1449,7 @@ document.querySelectorAll("[data-start]").forEach(btn => btn.addEventListener("c
 /* WhatsApp flutuante */
 $("#waFloat").href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent("Olá! Vim pelo site da MoviX e quero saber mais.")}`;
 $("#waFaq").href = $("#waFloat").href;
+document.addEventListener("click", e => { if (e.target.closest('a[href^="https://wa.me/"]')) track.contact(); });
 $("#year").textContent = new Date().getFullYear();
 
 /* Fluxo de cobrança: datas calculadas a partir de hoje.

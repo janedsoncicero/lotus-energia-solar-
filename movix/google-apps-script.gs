@@ -66,12 +66,16 @@ function doGet() {
 function getSheet_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow(COLUMNS.map(c => c[0]));
+  if (!sheet) {
+    // Usa a primeira aba (criada junto com a planilha) e renomeia para "Leads"
+    sheet = ss.getSheets()[0] || ss.insertSheet(SHEET_NAME);
+    sheet.setName(SHEET_NAME);
+  }
+  if (sheet.getLastRow() === 0) sheet.appendRow(COLUMNS.map(c => c[0]));
+  // Formatação feita uma única vez
+  if (sheet.getFrozenRows() === 0) {
     sheet.getRange(1, 1, 1, COLUMNS.length).setFontWeight('bold').setBackground('#0f1830').setFontColor('#ffffff');
     sheet.setFrozenRows(1);
-    // Lista suspensa para a equipe acompanhar o atendimento
     const rule = SpreadsheetApp.newDataValidation()
       .requireValueInList(['Novo', 'Em contato', 'Proposta enviada', 'Fechado', 'Perdido'], true)
       .build();

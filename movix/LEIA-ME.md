@@ -26,15 +26,19 @@ Depois de enviar, a pessoa vê um botão para chamar a MoviX no WhatsApp com uma
 
 ## Configuração (uma vez só, cerca de 5 minutos)
 
-### 1. Criar a planilha e o script
-1. Crie uma planilha nova no Google Sheets (ex.: "MoviX - Leads").
-2. Menu **Extensões → Apps Script**.
-3. Apague o conteúdo do editor, cole todo o conteúdo de `google-apps-script.gs` e salve.
-4. Clique em **Implantar → Nova implantação**.
+### 1. Planilha e script
+A planilha já foi criada no Google Drive: **MoviX - Cadastros da Landing Page**
+(https://docs.google.com/spreadsheets/d/1BPR5qfT6n_AYfiXc-D8btqgGURwD7o-1Eo2gIhWUQnk/edit).
+
+1. Abra a planilha e vá em **Extensões → Apps Script**.
+2. Apague o conteúdo do editor, cole todo o conteúdo de `google-apps-script.gs` e salve.
+3. Clique em **Implantar → Nova implantação**.
    - Tipo: **App da Web**
    - Executar como: **Eu**
    - Quem pode acessar: **Qualquer pessoa**
-5. Autorize o acesso quando o Google pedir e copie a **URL do app da Web** (termina em `/exec`).
+4. Autorize o acesso quando o Google pedir e copie a **URL do app da Web** (termina em `/exec`).
+
+No primeiro cadastro, o script renomeia a aba para **Leads**, deixa o cabeçalho em destaque, congela a primeira linha e cria a lista de status (Novo, Em contato, Proposta enviada, Fechado, Perdido).
 
 ### 2. Ligar a página à planilha
 No `index.html`, procure por `CONFIG` (perto do início do `<script>`) e preencha:
@@ -72,5 +76,29 @@ O número do cartão "veículos online" varia sozinho entre 4.740 e 4.890. Para 
 - As cores ficam no topo do `<style>`, em `:root` (`--accent`, `--accent-2`, `--grad`).
 - Perguntas e opções do funil ficam no objeto `STEPS` dentro do `<script>`.
 
-## Pixel / Google Tag Manager
-Se o Pixel da Meta (`fbq`) ou o GTM (`dataLayer`) estiverem instalados na página, um cadastro concluído dispara automaticamente o evento `Lead` / `lead_movix`.
+## Anúncios: Pixel da Meta e Google Ads
+No `CONFIG` do `index.html`, preencha os IDs (o que ficar vazio não é carregado):
+
+```js
+META_PIXEL_ID: "123456789012345",     // Gerenciador de Eventos da Meta
+GOOGLE_ADS_ID: "AW-123456789",        // Google Ads → Metas → Conversões
+GOOGLE_ADS_LEAD_LABEL: "AbCdEfGhIjk", // rótulo da conversão "Cadastro"
+GA4_ID: "G-ABC123XYZ"                 // opcional
+```
+
+Eventos enviados automaticamente:
+
+| Momento | Meta | Google |
+| --- | --- | --- |
+| Página aberta | `PageView` | visita da página |
+| Primeira resposta do cadastro | `InicioCadastro` (personalizado) | `begin_signup` |
+| Cadastro concluído | `Lead` | conversão do Google Ads + `generate_lead` |
+| Clique em qualquer botão de WhatsApp | `Contact` | `contato_whatsapp` |
+
+Use **Lead** como evento de otimização das campanhas de cadastro na Meta e a conversão de cadastro no Google Ads.
+
+## Política de privacidade
+A página `politica-de-privacidade.html` está ligada ao formulário e ao rodapé. Ela cita o uso do Pixel da Meta e das ferramentas do Google. Se mudar a forma de contato ou o prazo de guarda dos dados, atualize o texto e a data no topo.
+
+## Telas do aplicativo
+`img/app-lista.jpg`, `img/app-mapa.jpg` e `img/app-lista-mapa.jpg` são prints reais do aplicativo com nomes, placas, IMEIs, endereços e quantidades trocados por dados fictícios (a página informa isso abaixo das telas).
