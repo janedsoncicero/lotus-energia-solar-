@@ -18,6 +18,7 @@
 <style>
   /* ===== Cores da marca: troque aqui quando a logo oficial chegar ===== */
   :root {
+    color-scheme: dark;
     --bg: #050916;
     --bg-2: #0a1124;
     --surface: #0f1830;
@@ -68,7 +69,7 @@
 
   /* ===== Header ===== */
   header.site {
-    position: sticky; top: 0; z-index: 50;
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
     background: rgba(7, 11, 20, .78); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid rgba(34, 49, 79, .6);
   }
@@ -333,8 +334,8 @@
   }
   .wa-float:hover { transform: scale(1.07); }
 
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
-  .reveal.in { opacity: 1; transform: none; }
+  .reveal.in { animation: rise .7s ease both; }
+  @keyframes rise { from { opacity: .001; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 
   /* ===== Responsivo ===== */
   @media (max-width: 1020px) {
@@ -366,7 +367,6 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
     html { scroll-behavior: auto; }
-    .reveal { opacity: 1; transform: none; }
   }
 </style>
 </head>
