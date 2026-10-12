@@ -841,21 +841,21 @@
             <span class="fs-dot"><svg width="22" height="22"><use href="#i-receipt"/></svg></span>
             <div class="fs-body">
               <b>1. Cobrança gerada</b>
-              <div class="fs-card"><span class="fs-muted">Asaas · Fatura nº 1042</span><strong>R$ 89,90</strong><span class="fs-muted">Vencimento 10/11</span></div>
+              <div class="fs-card"><span class="fs-muted">Asaas · Boleto nº 1042</span><strong>R$ 89,90</strong><span class="fs-muted">Vencimento <span class="js-due">10/11</span></span></div>
             </div>
           </li>
           <li class="flow-step">
             <span class="fs-dot wa"><svg width="22" height="22"><use href="#i-wa"/></svg></span>
             <div class="fs-body">
               <b>2. Lembrete no WhatsApp</b>
-              <div class="fs-card fs-bubble">Olá, Carlos! Sua mensalidade de R$ 89,90 vence amanhã, 10/11. Para pagar, use o link da fatura.<span class="fs-time">09:00 ✓✓</span></div>
+              <div class="fs-card fs-bubble">Olá, Carlos! O boleto da sua mensalidade de R$ 89,90 vence <span class="js-due-text">amanhã, 10/11</span>. Para pagar, use o link da fatura.<span class="fs-time">09:00 ✓✓</span></div>
             </div>
           </li>
           <li class="flow-step">
             <span class="fs-dot"><svg width="22" height="22"><use href="#i-check"/></svg></span>
             <div class="fs-body">
               <b>3. Pagamento confirmado</b>
-              <div class="fs-card"><span class="fs-muted">Pix recebido</span><strong>Confirmado pelo Asaas</strong><span class="fs-muted">10/11 · 14:32</span></div>
+              <div class="fs-card"><span class="fs-muted">Boleto pago</span><strong>Confirmado pelo Asaas</strong><span class="fs-muted"><span class="js-due">10/11</span> · 14:32</span></div>
             </div>
           </li>
           <li class="flow-step">
@@ -1354,6 +1354,19 @@ document.querySelectorAll("[data-start]").forEach(btn => btn.addEventListener("c
 $("#waFloat").href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent("Olá! Vim pelo site da MoviX e quero saber mais.")}`;
 $("#waFaq").href = $("#waFloat").href;
 $("#year").textContent = new Date().getFullYear();
+
+/* Fluxo de cobrança: datas calculadas a partir de hoje.
+   O vencimento é o próximo dia útil (pula sábado e domingo); o lembrete sai hoje. */
+(function flowDates() {
+  const today = new Date();
+  const due = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+  while (due.getDay() === 0 || due.getDay() === 6) due.setDate(due.getDate() + 1);
+  const ddmm = d => String(d.getDate()).padStart(2, "0") + "/" + String(d.getMonth() + 1).padStart(2, "0");
+  const days = Math.round((due - new Date(today.getFullYear(), today.getMonth(), today.getDate())) / 864e5);
+  const weekday = due.toLocaleDateString("pt-BR", { weekday: "long" });
+  document.querySelectorAll(".js-due").forEach(el => el.textContent = ddmm(due));
+  document.querySelectorAll(".js-due-text").forEach(el => el.textContent = days === 1 ? `amanhã, ${ddmm(due)}` : `${weekday === "sábado" || weekday === "domingo" ? "no" : "na"} ${weekday}, ${ddmm(due)}`);
+})();
 
 /* Fluxo de cobrança: destaca uma etapa por vez */
 (function flow() {
