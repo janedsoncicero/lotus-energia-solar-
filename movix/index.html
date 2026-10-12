@@ -166,40 +166,29 @@
   .ticker-track span svg { color: var(--accent); }
   @keyframes ticker { to { transform: translateX(calc(-50% - 22px)); } }
 
-  /* Veículos */
+  /* Veículos (fotos + interface de rastreamento) */
   .vehicles { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
   .v-card { position: relative; border-radius: 24px; background: var(--surface); border: 1px solid var(--border); overflow: hidden; transition: transform .25s, border-color .25s, box-shadow .25s; }
   .v-card:hover { transform: translateY(-4px); border-color: rgba(42, 139, 255, .55); box-shadow: 0 24px 60px rgba(20, 96, 255, .18); }
-  .v-scene {
-    position: relative; padding: 26px 18px 6px; aspect-ratio: 16 / 10; display: flex; align-items: center; justify-content: center;
-    background: radial-gradient(420px 200px at 50% 20%, rgba(30, 120, 255, .16), transparent 70%), linear-gradient(180deg, #0b1530, #08101f);
-    border-bottom: 1px solid var(--border);
+  .v-media { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg-2); }
+  .v-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform .6s ease; }
+  .v-card:hover .v-media img { transform: scale(1.03); }
+  .v-media::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(180deg, rgba(5, 9, 22, .5) 0%, rgba(5, 9, 22, .08) 30%, rgba(5, 9, 22, .08) 65%, rgba(5, 9, 22, .6) 100%), rgba(10, 25, 60, .12);
   }
-  .v-photo { opacity: 0; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .has-photo { padding: 0; }
-  .has-photo .v-photo { opacity: 1; transition: opacity .5s; }
-  .has-photo .v-svg { display: none; }
-  .has-photo::after { content: ""; position: absolute; inset: 0; pointer-events: none;
-    background: linear-gradient(180deg, rgba(5, 9, 22, .45) 0%, transparent 35%, transparent 60%, rgba(5, 9, 22, .55) 100%); }
-  .has-photo .v-badge, .has-photo .v-speed { z-index: 2; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-  .v-track { display: none; }
-  .has-photo .v-track {
-    display: block; position: absolute; z-index: 2; left: 50%; top: 42%; width: 22px; height: 22px; margin: -11px 0 0 -11px;
-    border-radius: 50%; background: var(--accent); border: 3px solid #fff; box-shadow: 0 0 0 6px rgba(42, 139, 255, .35), 0 6px 20px rgba(0, 0, 0, .5);
+  .v-ui { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+  .v-chip, .v-demo {
+    position: absolute; z-index: 2; display: inline-flex; align-items: center; gap: 7px;
+    font-size: 12.5px; font-weight: 700; line-height: 1; padding: 8px 12px; border-radius: 999px;
+    background: rgba(5, 9, 22, .62); border: 1px solid rgba(120, 160, 230, .28); color: var(--text);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   }
-  .has-photo .v-track i { position: absolute; inset: -14px; border-radius: 50%; border: 2px solid var(--accent); animation: ping 1.8s ease-out infinite; }
-  @keyframes ping { from { transform: scale(.5); opacity: .9; } to { transform: scale(2.2); opacity: 0; } }
-  .v-svg { width: 100%; height: auto; max-width: 420px; margin: 0 auto; overflow: visible; }
-  .v-body { animation: bob 1.6s ease-in-out infinite; }
-  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
-  .v-badge, .v-speed {
-    position: absolute; top: 16px; font-size: 12.5px; font-weight: 700; padding: 6px 12px; border-radius: 999px;
-    background: rgba(5, 9, 22, .7); border: 1px solid var(--border);
-  }
-  .v-badge { left: 16px; color: var(--accent-2); display: inline-flex; align-items: center; gap: 7px; }
-  .v-badge i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-2); animation: pulse 2s infinite; }
-  .v-speed { right: 16px; color: var(--text); }
-  .v-text { padding: 24px 28px 28px; }
+  .v-status { top: 14px; left: 14px; color: #8be9c0; }
+  .v-status i { width: 7px; height: 7px; border-radius: 50%; background: #4fe3a0; animation: pulse 2s infinite; }
+  .v-data { top: 14px; right: 14px; font-variant-numeric: tabular-nums; }
+  .v-demo { bottom: 12px; right: 14px; font-size: 11.5px; font-weight: 600; color: var(--text-2); padding: 6px 10px; }
+  .v-text { padding: 22px 26px 26px; }
   .v-text h3 { display: flex; align-items: center; gap: 10px; margin: 0 0 8px; font-size: 21px; }
   .v-text h3 svg { color: var(--accent); }
   .v-text p { margin: 0; color: var(--text-2); }
@@ -370,7 +359,10 @@
     .path { padding: 26px; }
     .fc-1 { display: none; }
     .fc-2 { right: 0; bottom: -6%; }
-    .v-text { padding: 20px 22px 24px; }
+    .v-text { padding: 18px 20px 22px; }
+    .v-chip { font-size: 12px; padding: 7px 10px; }
+    .v-status { top: 10px; left: 10px; } .v-data { top: 10px; right: 10px; }
+    .v-demo { right: 10px; bottom: 10px; font-size: 11px; }
     .float-card { padding: 10px 12px; }
     .funnel { padding: 22px 18px; border-radius: 22px; }
     .options.cols-2 { grid-template-columns: 1fr; }
@@ -593,34 +585,22 @@
       </div>
       <div class="vehicles">
         <article class="v-card reveal">
-          <div class="v-scene">
-            <img class="v-photo" src="img/carro.jpg" alt="Carro sendo rastreado" loading="lazy" onload="this.parentNode.classList.add('has-photo')" onerror="this.remove()">
-            <span class="v-track" aria-hidden="true"><i></i></span>
-            <span class="v-badge"><i></i> Online</span>
-            <span class="v-speed">62 km/h</span>
-            <svg class="v-svg" viewBox="0 0 320 200" aria-hidden="true">
-              <defs>
-                <linearGradient id="silver" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1f5fc"/><stop offset=".55" stop-color="#b7c1d6"/><stop offset="1" stop-color="#7b87a2"/></linearGradient>
-                <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b3a78"/><stop offset="1" stop-color="#081736"/></linearGradient>
-              </defs>
-              <g class="road"><rect x="0" y="166" width="320" height="2" fill="#1f2f55"/><path d="M0 182H320" stroke="#2a3d68" stroke-width="3" stroke-dasharray="22 18"><animate attributeName="stroke-dashoffset" from="0" to="40" dur=".9s" repeatCount="indefinite"/></path></g>
-              <g class="pin-pulse"><ellipse cx="164" cy="168" rx="70" ry="6" fill="#2a8bff" opacity=".18"/></g>
-              <g class="v-body">
-                <path d="M54 150 L54 130 Q56 120 70 118 L108 112 L136 88 Q142 82 154 82 L210 82 Q220 82 228 90 L248 110 L262 114 Q274 117 274 128 L274 150 Z" fill="url(#silver)"/>
-                <path d="M142 90 L120 110 L176 110 L176 90 Z" fill="url(#glass)"/>
-                <path d="M182 90 L182 110 L242 110 L222 92 Q219 90 214 90 Z" fill="url(#glass)"/>
-                <path d="M58 132 H270" stroke="#2a8bff" stroke-width="2.5"/>
-                <rect x="264" y="118" width="10" height="5" rx="2" fill="#bfe3ff"/>
-                <rect x="54" y="120" width="6" height="7" rx="1.5" fill="#ff4d6d"/>
-                <g class="wheel" transform="translate(96 150)"><circle r="18" fill="#0a1124" stroke="#33415f" stroke-width="4"/><circle r="7" fill="#8f9bb6"/><path d="M0 -12V12M-12 0H12" stroke="#5b6888" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".6s" repeatCount="indefinite"/></path></g>
-                <g class="wheel" transform="translate(234 150)"><circle r="18" fill="#0a1124" stroke="#33415f" stroke-width="4"/><circle r="7" fill="#8f9bb6"/><path d="M0 -12V12M-12 0H12" stroke="#5b6888" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".6s" repeatCount="indefinite"/></path></g>
-              </g>
-              <g transform="translate(164 18)">
-                <circle cx="0" cy="20" r="12" fill="none" stroke="#2a8bff" stroke-width="2"><animate attributeName="r" values="12;34" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="1.8s" repeatCount="indefinite"/></circle>
-                <path d="M0 0C-12 0-20 8-20 19c0 14 20 32 20 32s20-18 20-32C20 8 12 0 0 0z" fill="#2a8bff"/>
-                <circle cx="0" cy="19" r="7" fill="#fff"/>
+          <div class="v-media">
+            <img src="img/carro.jpg" alt="SUV prateado sendo rastreado" width="1600" height="1000" loading="lazy" decoding="async">
+            <svg class="v-ui" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <path d="M90 995 C 180 950 270 905 400 872" fill="none" stroke="#2a8bff" stroke-opacity=".4" stroke-width="22" stroke-linecap="round"/>
+              <path d="M90 995 C 180 950 270 905 400 872" fill="none" stroke="#9ad4ff" stroke-width="7" stroke-linecap="round" stroke-dasharray="16 14"><animate attributeName="stroke-dashoffset" from="60" to="0" dur="1.6s" repeatCount="indefinite"/></path>
+              <circle cx="90" cy="995" r="11" fill="#071433" stroke="#7cc6ff" stroke-width="5"/>
+              <g transform="translate(930 250)">
+                <ellipse cy="4" rx="26" ry="8" fill="#000" opacity=".35"/>
+                <circle cy="-46" r="24" fill="none" stroke="#2a8bff" stroke-width="4"><animate attributeName="r" values="24;70" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".9;0" dur="1.8s" repeatCount="indefinite"/></circle>
+                <path d="M0 0C-8-14-34-34-34-56a34 34 0 0 1 68 0C34-34 8-14 0 0z" fill="#2a8bff" stroke="#ffffff" stroke-width="5"/>
+                <circle cy="-56" r="12" fill="#ffffff"/>
               </g>
             </svg>
+            <span class="v-chip v-status"><i></i>Online</span>
+            <span class="v-chip v-data">62 km/h</span>
+            <span class="v-demo">Dados de demonstração</span>
           </div>
           <div class="v-text">
             <h3><svg width="22" height="22"><use href="#i-car"/></svg> Carros</h3>
@@ -628,40 +608,22 @@
           </div>
         </article>
         <article class="v-card reveal">
-          <div class="v-scene">
-            <img class="v-photo" src="img/moto.jpg" alt="Moto sendo rastreada" loading="lazy" onload="this.parentNode.classList.add('has-photo')" onerror="this.remove()">
-            <span class="v-track" aria-hidden="true"><i></i></span>
-            <span class="v-badge"><i></i> Online</span>
-            <span class="v-speed">48 km/h</span>
-            <svg class="v-svg" viewBox="0 0 320 200" aria-hidden="true">
-              <defs>
-                <linearGradient id="tank" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22a8ff"/><stop offset="1" stop-color="#1460ff"/></linearGradient>
-              </defs>
-              <g class="road"><rect x="0" y="174" width="320" height="2" fill="#1f2f55"/><path d="M0 188H320" stroke="#2a3d68" stroke-width="3" stroke-dasharray="22 18"><animate attributeName="stroke-dashoffset" from="0" to="40" dur=".7s" repeatCount="indefinite"/></path></g>
-              <ellipse cx="164" cy="176" rx="90" ry="6" fill="#2a8bff" opacity=".18"/>
-              <g class="v-body">
-                <path d="M120 134 L70 126" stroke="#c9d3e6" stroke-width="7" stroke-linecap="round"/>
-                <path d="M92 146 L150 124" stroke="#5b6888" stroke-width="7" stroke-linecap="round"/>
-                <rect x="128" y="112" width="52" height="32" rx="7" fill="#33415f"/>
-                <path d="M138 120h30M138 128h30M138 136h30" stroke="#5b6888" stroke-width="2"/>
-                <path d="M94 104 L124 96 L122 110 L100 113 Z" fill="url(#silver)"/>
-                <path d="M110 106 Q112 96 124 96 L164 96 L160 108 L114 110 Z" fill="#0f1830"/>
-                <path d="M150 104 Q158 82 190 82 L212 84 Q224 86 222 100 L180 108 Z" fill="url(#tank)"/>
-                <path d="M160 96 L214 92" stroke="#ffffff" stroke-opacity=".5" stroke-width="2"/>
-                <path d="M216 86 L244 148" stroke="#c9d3e6" stroke-width="7" stroke-linecap="round"/>
-                <path d="M206 74 L226 70" stroke="#c9d3e6" stroke-width="5" stroke-linecap="round"/>
-                <path d="M222 92 Q236 88 238 100 L226 104 Z" fill="url(#silver)"/>
-                <circle cx="236" cy="97" r="4" fill="#bfe3ff"/>
-                <rect x="92" y="104" width="6" height="6" rx="1.5" fill="#ff4d6d"/>
-                <g transform="translate(92 148)"><circle r="27" fill="#0a1124" stroke="#33415f" stroke-width="5"/><circle r="9" fill="#8f9bb6"/><path d="M0 -19V19M-19 0H19" stroke="#5b6888" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".5s" repeatCount="indefinite"/></path></g>
-                <g transform="translate(244 148)"><circle r="27" fill="#0a1124" stroke="#33415f" stroke-width="5"/><circle r="9" fill="#8f9bb6"/><path d="M0 -19V19M-19 0H19" stroke="#5b6888" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".5s" repeatCount="indefinite"/></path></g>
-              </g>
-              <g transform="translate(166 12)">
-                <circle cx="0" cy="20" r="12" fill="none" stroke="#2a8bff" stroke-width="2"><animate attributeName="r" values="12;34" dur="1.6s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="1.6s" repeatCount="indefinite"/></circle>
-                <path d="M0 0C-12 0-20 8-20 19c0 14 20 32 20 32s20-18 20-32C20 8 12 0 0 0z" fill="#2a8bff"/>
-                <circle cx="0" cy="19" r="7" fill="#fff"/>
+          <div class="v-media">
+            <img src="img/moto.jpg" alt="Motocicleta sendo rastreada" width="1600" height="1000" loading="lazy" decoding="async">
+            <svg class="v-ui" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <path d="M80 995 C 190 955 320 920 470 902" fill="none" stroke="#2a8bff" stroke-opacity=".4" stroke-width="22" stroke-linecap="round"/>
+              <path d="M80 995 C 190 955 320 920 470 902" fill="none" stroke="#9ad4ff" stroke-width="7" stroke-linecap="round" stroke-dasharray="16 14"><animate attributeName="stroke-dashoffset" from="60" to="0" dur="1.6s" repeatCount="indefinite"/></path>
+              <circle cx="80" cy="995" r="11" fill="#071433" stroke="#7cc6ff" stroke-width="5"/>
+              <g transform="translate(1150 300)">
+                <ellipse cy="4" rx="26" ry="8" fill="#000" opacity=".35"/>
+                <circle cy="-46" r="24" fill="none" stroke="#2a8bff" stroke-width="4"><animate attributeName="r" values="24;70" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".9;0" dur="1.8s" repeatCount="indefinite"/></circle>
+                <path d="M0 0C-8-14-34-34-34-56a34 34 0 0 1 68 0C34-34 8-14 0 0z" fill="#2a8bff" stroke="#ffffff" stroke-width="5"/>
+                <circle cy="-56" r="12" fill="#ffffff"/>
               </g>
             </svg>
+            <span class="v-chip v-status"><i></i>Online</span>
+            <span class="v-chip v-data">48 km/h</span>
+            <span class="v-demo">Dados de demonstração</span>
           </div>
           <div class="v-text">
             <h3><svg width="22" height="22"><use href="#i-moto"/></svg> Motos</h3>
@@ -669,37 +631,22 @@
           </div>
         </article>
         <article class="v-card reveal">
-          <div class="v-scene">
-            <img class="v-photo" src="img/caminhao.jpg" alt="Caminhão sendo rastreado" loading="lazy" onload="this.parentNode.classList.add('has-photo')" onerror="this.remove()">
-            <span class="v-track" aria-hidden="true"><i></i></span>
-            <span class="v-badge"><i></i> Em rota</span>
-            <span class="v-speed">78 km/h</span>
-            <svg class="v-svg" viewBox="0 0 320 200" aria-hidden="true">
-              <defs>
-                <linearGradient id="silver2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1f5fc"/><stop offset=".6" stop-color="#bcc6da"/><stop offset="1" stop-color="#7b87a2"/></linearGradient>
-                <linearGradient id="cab" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22a8ff"/><stop offset="1" stop-color="#1460ff"/></linearGradient>
-              </defs>
-              <g class="road"><rect x="0" y="166" width="320" height="2" fill="#1f2f55"/><path d="M0 182H320" stroke="#2a3d68" stroke-width="3" stroke-dasharray="22 18"><animate attributeName="stroke-dashoffset" from="0" to="40" dur="1.2s" repeatCount="indefinite"/></path></g>
-              <ellipse cx="160" cy="168" rx="130" ry="6" fill="#22c7ff" opacity=".14"/>
-              <g class="v-body">
-                <rect x="18" y="68" width="192" height="80" rx="6" fill="url(#silver2)"/>
-                <rect x="18" y="126" width="192" height="5" fill="#2a8bff"/>
-                <path d="M30 80H198" stroke="#ffffff" stroke-opacity=".5" stroke-width="2"/>
-                <rect x="208" y="134" width="12" height="9" fill="#33415f"/>
-                <path d="M218 148 L218 84 Q218 76 226 76 L264 76 Q274 76 280 86 L298 116 Q302 122 302 130 L302 148 Z" fill="url(#cab)"/>
-                <path d="M228 84 L262 84 Q268 84 272 90 L286 114 L228 114 Z" fill="#071433"/>
-                <rect x="294" y="124" width="8" height="6" rx="2" fill="#bfe3ff"/>
-                <g transform="translate(52 152)"><circle r="15" fill="#0a1124" stroke="#33415f" stroke-width="4"/><circle r="6" fill="#8f9bb6"/><path d="M0 -10V10M-10 0H10" stroke="#5b6888" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".7s" repeatCount="indefinite"/></path></g>
-                <g transform="translate(88 152)"><circle r="15" fill="#0a1124" stroke="#33415f" stroke-width="4"/><circle r="6" fill="#8f9bb6"/><path d="M0 -10V10M-10 0H10" stroke="#5b6888" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".7s" repeatCount="indefinite"/></path></g>
-                <g transform="translate(176 152)"><circle r="15" fill="#0a1124" stroke="#33415f" stroke-width="4"/><circle r="6" fill="#8f9bb6"/><path d="M0 -10V10M-10 0H10" stroke="#5b6888" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".7s" repeatCount="indefinite"/></path></g>
-                <g transform="translate(266 152)"><circle r="15" fill="#0a1124" stroke="#33415f" stroke-width="4"/><circle r="6" fill="#8f9bb6"/><path d="M0 -10V10M-10 0H10" stroke="#5b6888" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".7s" repeatCount="indefinite"/></path></g>
-              </g>
-              <g transform="translate(114 6)">
-                <circle cx="0" cy="20" r="12" fill="none" stroke="#22c7ff" stroke-width="2"><animate attributeName="r" values="12;34" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="2s" repeatCount="indefinite"/></circle>
-                <path d="M0 0C-12 0-20 8-20 19c0 14 20 32 20 32s20-18 20-32C20 8 12 0 0 0z" fill="#22c7ff"/>
-                <circle cx="0" cy="19" r="7" fill="#fff"/>
+          <div class="v-media">
+            <img src="img/caminhao.jpg" alt="Caminhão com carreta em rodovia sendo rastreado" width="1600" height="1000" loading="lazy" decoding="async">
+            <svg class="v-ui" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <path d="M120 1000 C 260 965 420 915 590 885" fill="none" stroke="#2a8bff" stroke-opacity=".4" stroke-width="22" stroke-linecap="round"/>
+              <path d="M120 1000 C 260 965 420 915 590 885" fill="none" stroke="#9ad4ff" stroke-width="7" stroke-linecap="round" stroke-dasharray="16 14"><animate attributeName="stroke-dashoffset" from="60" to="0" dur="1.6s" repeatCount="indefinite"/></path>
+              <circle cx="120" cy="1000" r="11" fill="#071433" stroke="#7cc6ff" stroke-width="5"/>
+              <g transform="translate(1110 215)">
+                <ellipse cy="4" rx="26" ry="8" fill="#000" opacity=".35"/>
+                <circle cy="-46" r="24" fill="none" stroke="#2a8bff" stroke-width="4"><animate attributeName="r" values="24;70" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".9;0" dur="1.8s" repeatCount="indefinite"/></circle>
+                <path d="M0 0C-8-14-34-34-34-56a34 34 0 0 1 68 0C34-34 8-14 0 0z" fill="#2a8bff" stroke="#ffffff" stroke-width="5"/>
+                <circle cy="-56" r="12" fill="#ffffff"/>
               </g>
             </svg>
+            <span class="v-chip v-status"><i></i>Em rota</span>
+            <span class="v-chip v-data">78 km/h</span>
+            <span class="v-demo">Dados de demonstração</span>
           </div>
           <div class="v-text">
             <h3><svg width="22" height="22"><use href="#i-truck"/></svg> Caminhões e frotas</h3>
@@ -707,45 +654,22 @@
           </div>
         </article>
         <article class="v-card reveal">
-          <div class="v-scene">
-            <img class="v-photo" src="img/maquina.jpg" alt="Máquina pesada sendo rastreada" loading="lazy" onload="this.parentNode.classList.add('has-photo')" onerror="this.remove()">
-            <span class="v-track" aria-hidden="true"><i></i></span>
-            <span class="v-badge"><i></i> Em operação</span>
-            <span class="v-speed">Ignição ligada</span>
-            <svg class="v-svg" viewBox="0 0 320 200" aria-hidden="true">
-              <defs>
-                <linearGradient id="amber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd25e"/><stop offset="1" stop-color="#e59a00"/></linearGradient>
-              </defs>
-              <rect x="0" y="174" width="320" height="2" fill="#1f2f55"/>
-              <ellipse cx="150" cy="176" rx="120" ry="6" fill="#22c7ff" opacity=".14"/>
-              <g>
-                <rect x="36" y="140" width="178" height="34" rx="17" fill="#141c30" stroke="#33415f" stroke-width="4"/>
-                <path d="M54 142H196" stroke="#5b6888" stroke-width="3" stroke-dasharray="8 6"><animate attributeName="stroke-dashoffset" from="0" to="-28" dur="1.4s" repeatCount="indefinite"/></path>
-                <circle cx="56" cy="157" r="10" fill="#33415f"/><circle cx="194" cy="157" r="10" fill="#33415f"/>
-                <circle cx="100" cy="160" r="6" fill="#33415f"/><circle cx="150" cy="160" r="6" fill="#33415f"/>
-                <rect x="70" y="128" width="110" height="14" rx="3" fill="#33415f"/>
-                <rect x="52" y="88" width="34" height="42" rx="6" fill="url(#amber)"/>
-                <rect x="78" y="94" width="104" height="36" rx="5" fill="url(#amber)"/>
-                <path d="M84 104H130" stroke="#0a1124" stroke-opacity=".35" stroke-width="3"/>
-                <path d="M120 94 L120 56 Q120 48 128 48 L160 48 Q168 48 170 56 L178 94 Z" fill="url(#amber)"/>
-                <path d="M128 56 L158 56 L166 86 L128 86 Z" fill="#071433"/>
-                <path d="M134 60 L150 60 L136 80 Z" fill="#ffffff" opacity=".12"/>
-                <g>
-                  <animateTransform attributeName="transform" type="rotate" values="0 186 100;-7 186 100;0 186 100" dur="3.2s" repeatCount="indefinite"/>
-                  <path d="M176 104 L238 34 L254 44 L194 112 Z" fill="url(#amber)"/>
-                  <path d="M190 86 L230 50" stroke="#c9d3e6" stroke-width="5" stroke-linecap="round"/>
-                  <path d="M242 32 L256 28 L294 106 L280 112 Z" fill="url(#amber)"/>
-                  <circle cx="247" cy="38" r="6" fill="#33415f"/>
-                  <path d="M276 104 L304 108 L300 140 Q288 148 272 134 Z" fill="#33415f"/>
-                  <path d="M300 140 L306 146M292 144 L296 150M284 142 L286 148" stroke="#5b6888" stroke-width="3" stroke-linecap="round"/>
-                </g>
-              </g>
-              <g transform="translate(146 -6)">
-                <circle cx="0" cy="20" r="12" fill="none" stroke="#22c7ff" stroke-width="2"><animate attributeName="r" values="12;34" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="2s" repeatCount="indefinite"/></circle>
-                <path d="M0 0C-12 0-20 8-20 19c0 14 20 32 20 32s20-18 20-32C20 8 12 0 0 0z" fill="#22c7ff"/>
-                <circle cx="0" cy="19" r="7" fill="#fff"/>
+          <div class="v-media">
+            <img src="img/maquina.jpg" alt="Escavadeira em obra sendo rastreada" width="1280" height="800" loading="lazy" decoding="async">
+            <svg class="v-ui" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <path d="M70 990 C 260 965 470 955 700 950" fill="none" stroke="#2a8bff" stroke-opacity=".4" stroke-width="22" stroke-linecap="round"/>
+              <path d="M70 990 C 260 965 470 955 700 950" fill="none" stroke="#9ad4ff" stroke-width="7" stroke-linecap="round" stroke-dasharray="16 14"><animate attributeName="stroke-dashoffset" from="60" to="0" dur="1.6s" repeatCount="indefinite"/></path>
+              <circle cx="70" cy="990" r="11" fill="#071433" stroke="#7cc6ff" stroke-width="5"/>
+              <g transform="translate(1430 590)">
+                <ellipse cy="4" rx="26" ry="8" fill="#000" opacity=".35"/>
+                <circle cy="-46" r="24" fill="none" stroke="#2a8bff" stroke-width="4"><animate attributeName="r" values="24;70" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".9;0" dur="1.8s" repeatCount="indefinite"/></circle>
+                <path d="M0 0C-8-14-34-34-34-56a34 34 0 0 1 68 0C34-34 8-14 0 0z" fill="#2a8bff" stroke="#ffffff" stroke-width="5"/>
+                <circle cy="-56" r="12" fill="#ffffff"/>
               </g>
             </svg>
+            <span class="v-chip v-status"><i></i>Ignição ligada</span>
+            <span class="v-chip v-data">Horímetro 1.240 h</span>
+            <span class="v-demo">Dados de demonstração</span>
           </div>
           <div class="v-text">
             <h3><svg width="22" height="22"><use href="#i-excavator"/></svg> Máquinas pesadas</h3>

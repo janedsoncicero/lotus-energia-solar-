@@ -52,7 +52,7 @@ Abra a página, faça um cadastro de teste e confira se a linha apareceu na aba 
 > Se você alterar o script depois, use **Implantar → Gerenciar implantações → Editar → Nova versão** para a URL continuar a mesma.
 
 ## Fotos dos veículos
-Coloque as fotos na pasta `movix/img/` com estes nomes (formato JPG, de preferência deitadas, 1600 x 1000 px ou maior):
+As fotos ficam na pasta `movix/img/`, no formato 16:10 (1600 x 1000 px). Para trocar uma foto, substitua o arquivo mantendo o nome:
 
 | Arquivo | Cartão |
 | --- | --- |
@@ -61,7 +61,9 @@ Coloque as fotos na pasta `movix/img/` com estes nomes (formato JPG, de preferê
 | `img/caminhao.jpg` | Caminhões e frotas |
 | `img/maquina.jpg` | Máquinas pesadas |
 
-A página coloca sozinha o ponto de rastreamento pulsando e as etiquetas por cima da foto. Enquanto uma foto não existir, aparece a ilustração.
+Por cima de cada foto a página desenha o marcador de localização, um trecho de rota e as etiquetas de status, marcadas como "Dados de demonstração". A posição do marcador e da rota fica no próprio `index.html`, no `<svg class="v-ui">` de cada cartão (coordenadas de 0 a 1600 na horizontal e 0 a 1000 na vertical).
+
+> As fotos atuais são imagens de divulgação de fabricantes (VW, BMW, Iveco, JCB). Antes de usar em anúncios, troque por fotos próprias ou de banco de imagens com licença comercial.
 
 ## Veículos online
 O número do cartão "veículos online" varia sozinho entre 4.740 e 4.890. Para mudar a faixa, procure `MIN` e `MAX` no `<script>`.
