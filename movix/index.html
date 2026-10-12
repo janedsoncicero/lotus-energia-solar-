@@ -137,6 +137,10 @@
     border-radius: 16px; padding: 12px 14px; box-shadow: var(--shadow); font-size: 13px;
     display: flex; align-items: center; gap: 12px; animation: floaty 6s ease-in-out infinite;
   }
+  .live-num { display: inline-block; font-variant-numeric: tabular-nums; min-width: 4.2ch; transition: color .4s; }
+  .live-num.up { color: #4fe3a0; } .live-num.down { color: #ffb36b; }
+  .delta { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .delta.up { color: #4fe3a0; } .delta.down { color: #ffb36b; }
   .float-card .fi { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; flex: none; }
   .float-card b { display: block; font-size: 13.5px; }
   .float-card small { color: var(--text-2); font-size: 12px; }
@@ -167,10 +171,24 @@
   .v-card { position: relative; border-radius: 24px; background: var(--surface); border: 1px solid var(--border); overflow: hidden; transition: transform .25s, border-color .25s, box-shadow .25s; }
   .v-card:hover { transform: translateY(-4px); border-color: rgba(42, 139, 255, .55); box-shadow: 0 24px 60px rgba(20, 96, 255, .18); }
   .v-scene {
-    position: relative; padding: 26px 18px 6px;
+    position: relative; padding: 26px 18px 6px; aspect-ratio: 16 / 10; display: flex; align-items: center; justify-content: center;
     background: radial-gradient(420px 200px at 50% 20%, rgba(30, 120, 255, .16), transparent 70%), linear-gradient(180deg, #0b1530, #08101f);
     border-bottom: 1px solid var(--border);
   }
+  .v-photo { opacity: 0; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .has-photo { padding: 0; }
+  .has-photo .v-photo { opacity: 1; transition: opacity .5s; }
+  .has-photo .v-svg { display: none; }
+  .has-photo::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(180deg, rgba(5, 9, 22, .45) 0%, transparent 35%, transparent 60%, rgba(5, 9, 22, .55) 100%); }
+  .has-photo .v-badge, .has-photo .v-speed { z-index: 2; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .v-track { display: none; }
+  .has-photo .v-track {
+    display: block; position: absolute; z-index: 2; left: 50%; top: 42%; width: 22px; height: 22px; margin: -11px 0 0 -11px;
+    border-radius: 50%; background: var(--accent); border: 3px solid #fff; box-shadow: 0 0 0 6px rgba(42, 139, 255, .35), 0 6px 20px rgba(0, 0, 0, .5);
+  }
+  .has-photo .v-track i { position: absolute; inset: -14px; border-radius: 50%; border: 2px solid var(--accent); animation: ping 1.8s ease-out infinite; }
+  @keyframes ping { from { transform: scale(.5); opacity: .9; } to { transform: scale(2.2); opacity: 0; } }
   .v-svg { width: 100%; height: auto; max-width: 420px; margin: 0 auto; overflow: visible; }
   .v-body { animation: bob 1.6s ease-in-out infinite; }
   @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
@@ -554,7 +572,7 @@
         </div>
         <div class="float-card fc-2">
           <span class="fi"><svg width="20" height="20"><use href="#i-pin"/></svg></span>
-          <div><b>4 veículos online</b><small>Atualização em tempo real</small></div>
+          <div><b><span class="live-num" id="liveCount">4.800</span> veículos online</b><small><span class="delta up" id="liveDelta">▲ 0</span> · em tempo real</small></div>
         </div>
       </div>
     </div>
@@ -576,6 +594,8 @@
       <div class="vehicles">
         <article class="v-card reveal">
           <div class="v-scene">
+            <img class="v-photo" src="img/carro.jpg" alt="Carro sendo rastreado" loading="lazy" onload="this.parentNode.classList.add('has-photo')" onerror="this.remove()">
+            <span class="v-track" aria-hidden="true"><i></i></span>
             <span class="v-badge"><i></i> Online</span>
             <span class="v-speed">62 km/h</span>
             <svg class="v-svg" viewBox="0 0 320 200" aria-hidden="true">
@@ -609,6 +629,8 @@
         </article>
         <article class="v-card reveal">
           <div class="v-scene">
+            <img class="v-photo" src="img/moto.jpg" alt="Moto sendo rastreada" loading="lazy" onload="this.parentNode.classList.add('has-photo')" onerror="this.remove()">
+            <span class="v-track" aria-hidden="true"><i></i></span>
             <span class="v-badge"><i></i> Online</span>
             <span class="v-speed">48 km/h</span>
             <svg class="v-svg" viewBox="0 0 320 200" aria-hidden="true">
@@ -648,6 +670,8 @@
         </article>
         <article class="v-card reveal">
           <div class="v-scene">
+            <img class="v-photo" src="img/caminhao.jpg" alt="Caminhão sendo rastreado" loading="lazy" onload="this.parentNode.classList.add('has-photo')" onerror="this.remove()">
+            <span class="v-track" aria-hidden="true"><i></i></span>
             <span class="v-badge"><i></i> Em rota</span>
             <span class="v-speed">78 km/h</span>
             <svg class="v-svg" viewBox="0 0 320 200" aria-hidden="true">
@@ -684,6 +708,8 @@
         </article>
         <article class="v-card reveal">
           <div class="v-scene">
+            <img class="v-photo" src="img/maquina.jpg" alt="Máquina pesada sendo rastreada" loading="lazy" onload="this.parentNode.classList.add('has-photo')" onerror="this.remove()">
+            <span class="v-track" aria-hidden="true"><i></i></span>
             <span class="v-badge"><i></i> Em operação</span>
             <span class="v-speed">Ignição ligada</span>
             <svg class="v-svg" viewBox="0 0 320 200" aria-hidden="true">
@@ -1286,6 +1312,35 @@ document.querySelectorAll("[data-start]").forEach(btn => btn.addEventListener("c
 /* WhatsApp flutuante */
 $("#waFloat").href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent("Olá! Vim pelo site da MoviX e quero saber mais.")}`;
 $("#year").textContent = new Date().getFullYear();
+
+/* Veículos online: varia em torno de 4.800 */
+(function live() {
+  const el = document.getElementById("liveCount"), dl = document.getElementById("liveDelta");
+  if (!el) return;
+  const fmt = n => n.toLocaleString("pt-BR");
+  const MIN = 4740, MAX = 4890;
+  let value = 4800 + Math.round(Math.random() * 30 - 10);
+  el.textContent = fmt(value);
+  function tick() {
+    let step = Math.round(Math.random() * 14) - 6;          // tende levemente a subir
+    if (value + step > MAX || value + step < MIN) step = -step;
+    const from = value, to = value + step;
+    value = to;
+    const up = step >= 0;
+    el.classList.remove("up", "down"); el.classList.add(up ? "up" : "down");
+    dl.className = "delta " + (up ? "up" : "down");
+    dl.textContent = (up ? "▲ +" : "▼ ") + step;
+    const t0 = performance.now(), dur = 700;
+    (function anim(t) {
+      const k = Math.min(1, (t - t0) / dur);
+      el.textContent = fmt(Math.round(from + (to - from) * k));
+      if (k < 1) requestAnimationFrame(anim);
+      else setTimeout(() => el.classList.remove("up", "down"), 600);
+    })(t0);
+    setTimeout(tick, 1600 + Math.random() * 1800);
+  }
+  setTimeout(tick, 1200);
+})();
 
 /* Céu estrelado do topo */
 (function stars() {

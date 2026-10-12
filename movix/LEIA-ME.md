@@ -51,6 +51,21 @@ Abra a página, faça um cadastro de teste e confira se a linha apareceu na aba 
 
 > Se você alterar o script depois, use **Implantar → Gerenciar implantações → Editar → Nova versão** para a URL continuar a mesma.
 
+## Fotos dos veículos
+Coloque as fotos na pasta `movix/img/` com estes nomes (formato JPG, de preferência deitadas, 1600 x 1000 px ou maior):
+
+| Arquivo | Cartão |
+| --- | --- |
+| `img/carro.jpg` | Carros |
+| `img/moto.jpg` | Motos |
+| `img/caminhao.jpg` | Caminhões e frotas |
+| `img/maquina.jpg` | Máquinas pesadas |
+
+A página coloca sozinha o ponto de rastreamento pulsando e as etiquetas por cima da foto. Enquanto uma foto não existir, aparece a ilustração.
+
+## Veículos online
+O número do cartão "veículos online" varia sozinho entre 4.740 e 4.890. Para mudar a faixa, procure `MIN` e `MAX` no `<script>`.
+
 ## Cores e textos
 - As cores ficam no topo do `<style>`, em `:root` (`--accent`, `--accent-2`, `--grad`).
 - Perguntas e opções do funil ficam no objeto `STEPS` dentro do `<script>`.
